@@ -7,10 +7,10 @@ library(readxl)
 # All vOTUs over time
 
     ### path to vOTUs table
-    vOTU_tbl = read_excel("NutriPhage/Projects/predires_phageome_22_volunteers/data/Table_S1_vOTUs_final.xlsx") 
+    vOTU_tbl = read_excel("path/to/Table_S1_vOTUs_final.xlsx") 
     
     #### path to abundance table
-    abundance_vOTU_tbl = read_tsv("NutriPhage/Projects/predires_phageome_22_volunteers/data/Table_S4_abundance_tbl_final.tsv") %>%
+    abundance_vOTU_tbl = read_tsv(path/to/Table_S4_abundance_tbl_final.tsv") %>%
        mutate( Donor = ifelse(Donor == "11", "No_Ref_11", Donor),vOTU_Donor = str_c(vOTU_ID, Donor, sep="_")
                ,abdundance_metric = ifelse(norm_rel_abund> 25, vOTU_ID, "Low_abundance"))
 
