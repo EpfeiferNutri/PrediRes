@@ -1,1 +1,2 @@
-#  In this repository, all scripts, and necessary information are stored. The scripts can be used to generate figure, defining non-redundant vOTUs, etc. this is just a Test
+# In this repository, all R scripts are stored that are needed to create the figures and do the analysis. 
+# In addition to the scripts, you will need to download the supplemental tables. The paths to the tables have to be changed, by for example, using Rstudio
