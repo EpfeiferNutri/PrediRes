@@ -5,7 +5,7 @@ library(readxl)
 library(UpSetR)
 
 # path to vOTUs table
-vOTU_tbl = read_excel("NutriPhage/Projects/predires_phageome_22_volunteers/data/Table_S1_vOTUs_final.xlsx") 
+vOTU_tbl = read_excel("path/to/Table_S1_vOTUs_final.xlsx") 
 
 
 ### Source plot (Figure 1A)
