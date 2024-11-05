@@ -7,7 +7,7 @@ library(readxl)
 # AMR vOTUs over time
 
 ### path to vOTUs table
-vOTU_tbl = read_excel("NutriPhage/Projects/predires_phageome_22_volunteers/data/Table_S1_vOTUs_final.xlsx") 
+vOTU_tbl = read_excel("path/to/Table_S1_vOTUs_final.xlsx") 
 
 #### path to abundance table
 abundance_amr_tbl = read_tsv("NutriPhage/Projects/predires_phageome_22_volunteers/data/Table_S4_abundance_tbl_final.tsv") %>%
