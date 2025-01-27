@@ -6,6 +6,8 @@ Files and scripts to reproduce figures and analysis from
 
 **Data and Required Files:**
 
+**In the folder Supplementary Tables all required tables were placed.**
+ 
 **Table S1: Overview of the viral species (=vOTUs)**
 * vOTU_ID - Specifier/ID for the vOTUs,
 * size - contig and genomes sizes in bp
@@ -19,15 +21,8 @@ Files and scripts to reproduce figures and analysis from
 * viral_taxonomy_lineage - Taxonomy was predicted by geNomad
 * host_taxonomy - Host and their taxonomy were predicted by iPHoP. For vOTUs recovered from UHGV, the already predicted host was taken.
 * geNomad, checkV (at least medium quality), VIBRANT, viralVerify: 1: predicted or analyzed by one of these tools, 0: not detected or determined
-  
-**Table S2: Overview of related P-Ps that were retrieved from PMID:38378896**
-* Name of P-P as stated in NCBI - Name entry of NCBI RefSeq
-* Accession (RefSeq) - Accession ID of RefSeq
-* Number of related vOTUs - Sum of the number of vOTUs detected by the two methods (wGRR and vConTACT v2)
-* Comment to P-P state - Some phage-plasmids experimentally proven to follow this life cycle, others are suggested and for some any evidence is lacking. Here an additional comment with reference to litature (if available) is left.
-* Method_detected (wGRR-only, vContact v2 only, or by the two)	] - Specification which method was used to detect the relation.
-* vOTUs - List of vOTUs related to the phage-plasmids. Separated by semi-colon.
-**Table S3: Overview of read and sample sets** 
+   
+**Table S2: Overview of read and sample sets** 
 * Sequence_set - Category of sequences (viral, non-viral, proviral, UHGV, UHGG, unampped). All reads sets were mapped on theses types and the fraction was computed
 * mapped_read_count - Absolute number of mapped reads
 * mill_reads_per_sample - Number of total reads in the sample (in Millions)
@@ -35,11 +30,25 @@ Files and scripts to reproduce figures and analysis from
 * donor - Donor ID of the read set. Donor 29 was excluded from the analysis.
 * day - Day or sample ID (-14,-7,-1,4,7,10,15,30,90,180) of the read set.
 
-* **Table S4:** [Brief description of the data file and its contents]
-* **Table S5:** [Brief description of the supporting file]
-* **Table S6:** [Brief description of the supporting file]
+**Table S3: Overview of related P-Ps that were retrieved from PMID:38378896**
+* Name of P-P as stated in NCBI - Name entry of NCBI RefSeq
+* Accession (RefSeq) - Accession ID of RefSeq
+* Number of related vOTUs - Sum of the number of vOTUs detected by the two methods (wGRR and vConTACT v2)
+* Comment to P-P state - Some phage-plasmids experimentally proven to follow this life cycle, others are suggested and for some any evidence is lacking. Here an additional comment with reference to litature (if available) is left.
+* Method_detected (wGRR-only, vContact v2 only, or by the two)	] - Specification of the method that was used to detect the relation to the phage-plasmid.
+* vOTUs - List of vOTUs related to the phage-plasmids. Separated by semi-colon.
 
-**R Scripts:**
+* **Table S4:** [Brief description of the data file and its contents]
+*  
+* 
+* **Table S5:** [Brief description of the supporting file]
+* 
+* 
+* **Table S6:** [Brief description of the supporting file]
+* 
+* 
+
+**RScripts to reproduce the figures and analysis were placed in the folder Rscripts**
 
 * **[overview_vOTUs]:** Generates Figure [Figure Number] 
 * **[diversity_analysis_vOTUs]:** Generates Figure [Figure Number] 
