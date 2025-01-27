@@ -25,7 +25,7 @@ This repository contains all R scripts necessary to reproduce the figures presen
 * **[diversity_analysis_vOTUs]:** Generates Figure [Figure Number] 
 * **[votus_wARGs]:** Generates Figure [Figure Number] 
 * **[abundance_over_time]:** Generates Figure [Figure Number]
-* **[non_redundant_contig_ANI]:** Generates Figure [Figure Number]
-* **[multimer_resolution_mummer]:** Generates Figure [Figure Number]
+* **[non_redundant_contig_ANI]:** Used to dereplicate redundant sequences (to define vOTUs) using a network approach, and a species definition of 95% ANI over 85% AF. Details are listed in the Methods part under * Clustering viral contigs into viral Operational Taxonomical Units (vOTUs). The multifasta sequence file, blastn and anicalc.py (from CheckV) are required.
+* **[multimer_resolution_mummer]:** This script is used to detect and solve concatemeric sequences. It requires input from blastn, and a MUMmer 4.0 comparison to detect tandem repeats.
 
 # All R packages that are required for the analysis are listed in the respective script files.
