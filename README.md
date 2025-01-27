@@ -38,9 +38,13 @@ Files and scripts to reproduce figures and analysis from
 * Method_detected (wGRR-only, vContact v2 only, or by the two)	] - Specification of the method that was used to detect the relation to the phage-plasmid.
 * vOTUs - List of vOTUs related to the phage-plasmids. Separated by semi-colon.
 
-* **Table S4:** [Brief description of the data file and its contents]
+* **Table S4: Abundance table for all vOTUs**
+*  vOTU_ID and Size - As in Table S1
+*  Donor  - ID of the volunteer who gave the sample
+*  Sampling_Day - Time point of the sample
+*  rary_abundance - Counts of reads were down-sized to the smallest read set per donor, and used only to compute the Shannon index
 *  
-* 
+*  
 * **Table S5:** [Brief description of the supporting file]
 * 
 * 
