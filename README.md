@@ -6,23 +6,28 @@ Files and scripts to reproduce figures and analysis from
 
 **Data and Required Files:**
 
-* **Table S1:** Overview of the viral species (=vOTUs).
-* Table contains:
-  vOTU_ID - Specifier/ID for the vOTUs,
-  size - contig and genomes sizes in bp
-  source - One of three approaches used to obtain the contig: SpadesMetaV (assembly using Spades with --metaviral), SpadesFractionR )random subsampling of lowly covered readsets and assembly with Spades (default)), UHGV (contigs of UHGV that were covered by the reads at least to 50% and a sequencing depth of 1)
-  checkV quality - Quality indexes of checkV (Complete, High-, Medium-, Low-quality, and not-determined)
-  viral-lifecycle - Prediction of the lifecycle by BACPHLIP for genomes with at least High-quality. A temperate state was assigned, when prediction (ranges between 0 and 1) was >0.5 towards temperate. Otherwise it was set as virulent.
-  found_in_n_donors - Number of donors, in whom the vOTUs was detected
-  donorID_sample - ID of the donor in who it was detect and respective sample point (in backets)
-  Related_to_PP - Yes or No,  relation to a phage-plasmids was determined by wGRR or vConTACT v2
-  With_ARG - No: no antibiotic resistance gene (ARG) was detected. Yes: ARGs with vOTUs (predicted with AMRfinderPlus), and the encoding gene
-  viral_taxonomy_lineage - Taxonomy was predicted by geNomad
-  host_taxonomy - Host and their taxonomy were predicted by iPHoP. For vOTUs recovered from UHGV, the already predicted host was taken.
-  geNomad, checkV (at least medium quality), VIBRANT, viralVerify: 1: predicted or analyzed by one of these tools, 0: not detected or determined
-
-* **Table S2:** [Brief description of the supporting file]
+* **Table S1: Overview of the viral species (=vOTUs)**
+* vOTU_ID - Specifier/ID for the vOTUs,
+* size - contig and genomes sizes in bp
+* source - One of three approaches used to obtain the contig: SpadesMetaV (assembly using Spades with --metaviral), SpadesFractionR )random subsampling of lowly covered readsets and assembly with Spades (default)), UHGV (contigs of UHGV that were covered by the reads at least to 50% and a sequencing depth of 1)
+* checkV quality - Quality indexes of checkV (Complete, High-, Medium-, Low-quality, and not-determined)
+* viral-lifecycle - Prediction of the lifecycle by BACPHLIP for genomes with at least High-quality. A temperate state was assigned, when prediction (ranges between 0 and 1) was >0.5 towards temperate. Otherwise it was set as virulent.
+* found_in_n_donors - Number of donors, in whom the vOTUs was detected
+* donorID_sample - ID of the donor in who it was detect and respective sample point (in backets)
+* Related_to_PP - Yes or No,  relation to a phage-plasmids was determined by wGRR or vConTACT v2
+* With_ARG - No: no antibiotic resistance gene (ARG) was detected. Yes: ARGs with vOTUs (predicted with AMRfinderPlus), and the encoding gene
+* viral_taxonomy_lineage - Taxonomy was predicted by geNomad
+* host_taxonomy - Host and their taxonomy were predicted by iPHoP. For vOTUs recovered from UHGV, the already predicted host was taken.
+* geNomad, checkV (at least medium quality), VIBRANT, viralVerify: 1: predicted or analyzed by one of these tools, 0: not detected or determined
+* **Table S2: Overview of related P-Ps that were retrieved from PMID:38378896**
+* Name of P-P as stated in NCBI - Name entry of NCBI RefSeq
+* Accession (RefSeq) - Accession ID of RefSeq
+* Number of related vOTUs - Sum of the number of vOTUs detected by the two methods (wGRR and vConTACT v2)
+* Comment to P-P state - Some phage-plasmids experimentally proven to follow this life cycle, others are suggested and for some any evidence is lacking. Here an additional comment with reference to litature (if available) is left.
+* Method_detected (wGRR-only, vContact v2 only, or by the two)	] - Specification which method was used to detect the relation.
+* vOTUs - List of vOTUs related to the phage-plasmids. Separated by semi-colon.
 * **Table S3:** [Brief description of the supporting file]
+* 
 * **Table S4:** [Brief description of the data file and its contents]
 * **Table S5:** [Brief description of the supporting file]
 * **Table S6:** [Brief description of the supporting file]
