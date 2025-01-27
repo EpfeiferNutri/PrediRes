@@ -1,6 +1,6 @@
 # Reproducing Figures and Analysis from 
-# "Third-generation cephalosporin antibiotics induce phage bursts in the human gut microbiome" 
-# ([Manuscript Link])
+# Third-generation cephalosporin antibiotics induce phage bursts in the human gut microbiome
+ ([Manuscript Link])
 
 This repository contains all R scripts necessary to reproduce the figures presented in the manuscript "[Manuscript Title]" ([Manuscript Link]). 
 
