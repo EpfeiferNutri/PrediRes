@@ -42,14 +42,19 @@ Files and scripts to reproduce figures and analysis from
 *  vOTU_ID and Size - As in Table S1
 *  Donor  - ID of the volunteer who gave the sample
 *  Sampling_Day - Time point of the sample
-*  rary_abundance - Counts of reads were down-sized to the smallest read set per donor, and used only to compute the Shannon index
-*  
-*  
-* **Table S5:** [Brief description of the supporting file]
+*  ab_abundance - Absolute counts of reads mapped on the vOTU 
+*  *  
+* **Table S5: Overview of microbial species detected in PMID: 38468305** 
+* id_mgs - species ID
+* in_n_donor - Number in how many donors this species was detected
+* donorID_detected - ID of donors in which the species was detected
+* gtdb_classification - taxonomy of the species according to the Genome Taxonomy Database
 * 
-* 
-* **Table S6:** [Brief description of the supporting file]
-* 
+* **Table S6: Relative abundance of microbial species**
+* id_mgs - as in Table S5
+* relative_abundance - computed with METEOR and is based on most frequent signatur genes
+* Donor - Donor_ID
+* Sampling_day - Time point (day) of the sample
 * 
 
 **RScripts to reproduce the figures and analysis were placed in the folder Rscripts**
