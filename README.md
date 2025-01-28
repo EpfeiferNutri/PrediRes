@@ -64,16 +64,18 @@ Files and scripts to reproduce figures and analysis from
 **overview_vOTUs.R - Generates Figure 1 (A-E)**
 * requires the Rpackages tidyverse, readxl and UpSetR. Path for Table S1 needs to be specified. 
 
-
- 
 **diversity_analysis_vOTUs.R - Generates Figure 2 and S5** (Figure S5B is a variant of Figure 2B)
 * requires  tidyverse, readxl, vegan and pheatmap. In addition, Table S1,S4,S5 and S6 are needed.
   
 * **votus_wARGs.R - Generates Figure 3**
 * requires tidyverse and readxl, and Table S1, S2 and S4. 
 
-* **[abundance_over_time]:** Generates Figure [Figure Number]
-* **[non_redundant_contig_ANI]:** Used to dereplicate redundant sequences (to define vOTUs) using a network approach, and a species definition of 95% ANI over 85% AF. Details are listed in the Methods part under * Clustering viral contigs into viral Operational Taxonomical Units (vOTUs). The multifasta sequence file, blastn and anicalc.py (from CheckV) are required.
-* **[multimer_resolution_mummer]:** This script is used to detect and solve concatemeric sequences. It requires input from blastn, and a MUMmer 4.0 comparison to detect tandem repeats.
+**Abundances_over_time - Generates Figure 4, 5, S7 and S8**
+* requires tidyverse and readxl. Table S1, S2, S4, S5, S6 
 
-# All R packages that are required for the analysis are listed in the respective script files.
+**non_redundant_contig_ANI** 
+* Used to dereplicate redundant sequences (to define vOTUs) using a network approach, and a species definition of 95% ANI over 85% AF. Details are listed in the Methods part under * Clustering viral contigs into viral Operational Taxonomical Units (vOTUs). The multifasta sequence file, blastn and anicalc.py (from CheckV) are required.
+
+**multimer_resolution_mummer.R**
+* This script is used to detect and solve concatemeric sequences. It requires input from blastn, and a MUMmer 4.0 comparison to detect tandem repeats.
+* 
