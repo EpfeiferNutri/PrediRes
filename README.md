@@ -78,4 +78,3 @@ Files and scripts to reproduce figures and analysis from
 
 **multimer_resolution_mummer.R**
 * This script is used to detect and solve concatemeric sequences. It requires input from blastn, and a MUMmer 4.0 comparison to detect tandem repeats.
-* 
