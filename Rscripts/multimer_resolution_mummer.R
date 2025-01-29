@@ -1,4 +1,4 @@
-### load required libaries ###
+### load required libraries ###
 
 library("data.table")
 library("foreach")
