@@ -9,7 +9,7 @@ Files and scripts to reproduce figures and analysis from
 **Supplementary Tables folder contains all required tables.**
  <br>
  
-**Table S1: Overview of viral species (=vOTUs)**
+**`Table S1`: Overview of viral species (=vOTUs)**
 * vOTU_ID - Specifier/ID for the vOTUs,
 * size - contig and genomes sizes in bp
 * source - One of three approaches used to obtain the contig: SpadesMetaV (assembly using Spades with --metaviral), SpadesFractionR )random subsampling of lowly covered readsets and assembly with Spades (default)), UHGV (contigs of UHGV that were covered by the reads at least to 50% and a sequencing depth of 1)
@@ -23,7 +23,7 @@ Files and scripts to reproduce figures and analysis from
 * host_taxonomy - Host and their taxonomy were predicted by iPHoP. For vOTUs recovered from UHGV, the already predicted host was taken.
 * geNomad, checkV (at least medium quality), VIBRANT, viralVerify: 1: predicted or analyzed by one of these tools, 0: not detected or determined
    
-**Table S2: Overview of read and sample sets** 
+**`Table S2`: Overview of read and sample sets** 
 * Sequence_set - Category of sequences (viral, non-viral, proviral, UHGV, UHGG, unampped). All reads sets were mapped on theses types and the fraction was computed
 * mapped_read_count - Absolute number of mapped reads
 * mill_reads_per_sample - Number of total reads in the sample (in Millions)
@@ -31,7 +31,7 @@ Files and scripts to reproduce figures and analysis from
 * donor - Donor ID of the read set. Donor 29 was excluded from the analysis.
 * day - Day or sample ID (-14,-7,-1,4,7,10,15,30,90,180) of the read set.
 
-**Table S3: Overview of related P-Ps that were retrieved from PMID:38378896**
+**`Table S3`: Overview of related P-Ps that were retrieved from PMID:38378896**
 * Name of P-P as stated in NCBI - Name entry of NCBI RefSeq
 * Accession (RefSeq) - Accession ID of RefSeq
 * Number of related vOTUs - Sum of the number of vOTUs detected by the two methods (wGRR and vConTACT v2)
@@ -39,19 +39,19 @@ Files and scripts to reproduce figures and analysis from
 * Method_detected (wGRR-only, vContact v2 only, or by the two)	] - Specification of the method that was used to detect the relation to the phage-plasmid.
 * vOTUs - List of vOTUs related to the phage-plasmids. Separated by semi-colon.
 
-**Table S4: Abundance table for all vOTUs**
+**`Table S4`: Abundance table for all vOTUs**
 *  vOTU_ID and Size - As in Table S1
 *  Donor  - ID of the volunteer who gave the sample
 *  Sampling_Day - Time point of the sample
 *  ab_abundance - Absolute counts of reads mapped on the vOTU 
   
-**Table S5: Overview of microbial species detected in PMID: 38468305** 
+**`Table S5`: Overview of microbial species detected in PMID: 38468305** 
 * id_mgs - species ID
 * in_n_donor - Number in how many donors this species was detected
 * donorID_detected - ID of donors in which the species was detected
 * gtdb_classification - taxonomy of the species according to the Genome Taxonomy Database
   
-**Table S6: Relative abundance of microbial species**
+**`Table S6`: Relative abundance of microbial species**
 * id_mgs - as in Table S5
 * relative_abundance - computed with METEOR and is based on most frequent signatur genes
 * Donor - Donor_ID
@@ -61,20 +61,20 @@ Files and scripts to reproduce figures and analysis from
   
 **Folder Rscripts contains all required Rscripts to generate Figures and perform the analysis.**  
  <br>
-**overview_vOTUs.R - Generates Figure 1 (A-E)**
+**`overview_vOTUs.R` - Generates Figure 1 (A-E)**
 * requires the Rpackages tidyverse, readxl and UpSetR. Path for Table S1 needs to be specified. 
 
-**diversity_analysis_vOTUs.R - Generates Figure 2 and S5** (Figure S5B is a variant of Figure 2B)
+**`diversity_analysis_vOTUs.R` - Generates Figure 2 and S5** (Figure S5B is a variant of Figure 2B)
 * requires  tidyverse, readxl, vegan and pheatmap. In addition, Table S1,S4,S5 and S6 are needed.
   
-* **votus_wARGs.R - Generates Figure 3**
+* **`votus_wARGs.R` - Generates Figure 3**
 * requires tidyverse and readxl, and Table S1, S2 and S4. 
 
-**Abundances_over_time - Generates Figure 4, 5, S7 and S8**
+**`Abundances_over_time.R` - Generates Figure 4, 5, S7 and S8**
 * requires tidyverse and readxl. Table S1, S2, S4, S5, S6 
 
-**non_redundant_contig_ANI** 
+**`non_redundant_contig_ANI.R`** 
 * Used to dereplicate redundant sequences (to define vOTUs) using a network approach, and a species definition of 95% ANI over 85% AF. Details are listed in the Methods part under * Clustering viral contigs into viral Operational Taxonomical Units (vOTUs). The multifasta sequence file, blastn and anicalc.py (from CheckV) are required.
 
-**multimer_resolution_mummer.R**
+**`multimer_resolution_mummer.R`**
 * This script is used to detect and solve concatemeric sequences. It requires the output from a blastn (all vs all) comparison, and a subsequent MUMmer 4.0 analysis to detect tandem repeats.
