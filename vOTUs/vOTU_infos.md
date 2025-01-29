@@ -6,4 +6,4 @@ https://zenodo.org/records/14758483?preview=1&token=eyJhbGciOiJIUzUxMiJ9.eyJpZCI
 
 * `amrfinder_out`: AMRfinderPlus output on geNomad-predicted protein sequences.
 * `gggenomes_votus_amrfinder.R`: R script for plotting vOTU with ARGs  (Figure S6).
-* `homology_to_P-Ps`: vConTACT v2 (`g2g_pp_votus.tsv`) and wGRR (`wGRR_vOTUs_pp.zip`) clustering output.
+* In the folder `homology_to_P-Ps`: vConTACT v2 (`g2g_pp_votus.tsv`) and wGRR (`wGRR_vOTUs_pp.zip`) clustering output.
