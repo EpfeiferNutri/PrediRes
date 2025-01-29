@@ -1,4 +1,4 @@
-**Nucleotide and protein fasta sequences of the vOTUs can be retrieved from a zenodo repository: `10.5281/zenodo.14758483`**
+**Nucleotide and protein fasta sequences of the vOTUs are placed in a zenodo repository: `10.5281/zenodo.14758483`**
 
 * Link to the repository:
   
