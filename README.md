@@ -65,7 +65,7 @@ Files and scripts to reproduce figures and analysis from
 * requires the Rpackages tidyverse, readxl and UpSetR. Path for Table S1 needs to be specified. 
 
 **`diversity_analysis_vOTUs.R` - Generates Figure 2 and S5** (Figure S5B is a variant of Figure 2B)
-* requires  tidyverse, readxl, vegan and pheatmap. In addition, Table S1,S4,S5 and S6 are needed.
+* requires  tidyverse, readxl, vegan and pheatmap. In addition, Table S1, S4, S5 and S6 are needed.
   
 * **`votus_wARGs.R` - Generates Figure 3**
 * requires tidyverse and readxl, and Table S1, S2 and S4. 
