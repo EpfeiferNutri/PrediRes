@@ -17,4 +17,6 @@ https://zenodo.org/records/14758483?preview=1&token=eyJhbGciOiJIUzUxMiJ9.eyJpZCI
 
 <br>
 
-Folder `comparisont_to_UHGV` contains meta information on the UHGV database (last accessed Jan'24). This information was used to generate Figures S2AB with variations of ggplot2 functions listed in `Rscripts/overview_vOTUs.R`
+Folder `comparisont_to_UHGV`  
+  * meta information (`metadata_UHGV.zip`, zipped) on the UHGV database (last accessed Jan'24). This information was used to generate Figures S2AB with variations of ggplot2 functions listed in `Rscripts/overview_vOTUs.R`.
+  * `vOTUs_from_UHGV.tsv` table indicating which vOTUs originated from UHGV. UHGV sequences had to be (on average) covered at least 50%, and with a depth of 1 (see Methods).  
