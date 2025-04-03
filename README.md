@@ -21,7 +21,7 @@ https://doi.org/10.1101/2025.02.07.636470
 * With_ARG - No: no antibiotic resistance gene (ARG) was detected. Yes: ARGs with vOTUs (predicted with AMRfinderPlus), and the encoding gene
 * viral_taxonomy_lineage - Taxonomy was predicted by geNomad
 * host_taxonomy - Host and their taxonomy were predicted by iPHoP. For vOTUs recovered from UHGV, the already predicted host was taken.
-* geNomad, checkV (at least medium quality), VIBRANT, viralVerify: 1: predicted or analyzed by one of these tools, 0: not detected or determined
+* geNomad, checkV (if classed medium, high or complete), VIBRANT, viralVerify: 1: predicted or analyzed by one of these tools, 0: not detected or determined
    
 **`Table S2`: Overview of read and sample sets** 
 * Sequence_set - Category of sequences (viral, non-viral, proviral, UHGV, UHGG, unampped). All reads sets were mapped on theses types and the fraction was computed
