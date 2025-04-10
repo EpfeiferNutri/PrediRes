@@ -7,7 +7,7 @@ library(readxl)
     vOTU_tbl = read_excel("Table_S1_vOTUs_final.xlsx") 
 
     # AMR finderout vOTUs
-amrfinder_out = read_tsv("non_public/amrfinder_out.tsv") %>%
+amrfinder_out = read_tsv("amrfinder_out.tsv") %>%
   mutate(vOTU_ID = str_remove(pattern="_[0-9]{1,5}$", `Protein identifier`)) %>% 
   left_join(vOTU_tbl , by = "vOTU_ID") 
   
