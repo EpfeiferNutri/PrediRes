@@ -5,29 +5,32 @@ library(readxl)
 ### abundances of vOTUs and microbial species
 
 # read signal overview
-Read_signal_grouped = read_csv("Table_S2_overview_readsignal.csv")  
+Read_signal_grouped = read_csv("../Table_S2_overview_readsignal.csv")  
 
   # take only the viral
   Viral_signal = Read_signal_grouped %>% filter(Sequence_set == "viral") %>% filter(mapped_read_count > 1e6, `fraction in %` > 10) %>% 
     select(donor, day, mapped_read_count, fraction=`fraction in %`) %>%
     mutate(Sampling_day = ifelse( grepl(day,pattern="^-"), sprintf("%+04d", day), sprintf("%03d", day))
-      ,Donor = ifelse(nchar(donor)==1, sprintf("%02d", donor), donor)) %>% select(-donor, -day)
+      ,Donor = ifelse(nchar(donor)==1, sprintf("%02d", donor), donor)) %>% select(-donor, -day) %>%
+    mutate( Donor = ifelse(Donor == "11", "No_Ref_11", Donor))
 
 
 # All vOTUs over time
 
     ### path to vOTUs table
-    vOTU_tbl = read_excel("Table_S1_vOTUs_final.xlsx") 
+    vOTU_tbl = read_tsv("../Table_S1_vOTUs_final_v2.tsv") 
+ 
+    VCs = vOTU_tbl %>% dplyr::count(VClustering) %>% filter(n>2)
     
     #### path to abundance table
-    abundance_vOTU_tbl = read_tsv("Table_S4_abundance_tbl_final_pub.tsv") %>%
-       mutate( Donor = ifelse(Donor == "11", "No_Ref_11", Donor),vOTU_Donor = str_c(vOTU_ID, Donor, sep="_")) %>%
-       inner_join(Viral_signal, by = c("Donor","Sampling_day")) %>%
+    abundance_vOTU_tbl = read_tsv("../Table_S4_abundance_tbl_final_pub_v2.tsv") %>%
+      inner_join(Viral_signal, by = c("Donor","Sampling_day")) %>%
+      mutate(vOTU_Donor = str_c(vOTU_ID, Donor, sep="_")) %>%
       group_by(Donor)  %>%
       mutate(Sample_ID = str_c(Donor, Sampling_day, sep = "_")
            # down size to the smallest count per donor
           ,min_read_set = min(mapped_read_count)
-          ,rary_abundance = ab_abundunance*(min_read_set/mapped_read_count)
+          ,rary_abundance = ab_abundance*(min_read_set/mapped_read_count)
            # normalise to the size
            ,norm_rare_abundance = rary_abundance/size) %>% 
             group_by(Sample_ID) %>% mutate(
@@ -52,6 +55,60 @@ Read_signal_grouped = read_csv("Table_S2_overview_readsignal.csv")
       theme(legend.position = "none", text = element_text(size = 14), axis.text = element_text(size = 10)
             , strip.background = element_blank(),panel.grid = element_blank()) +
       facet_wrap(~Donor, scales = "fixed", ncol = 7 )
+
+
+###### number of shared vOTUs
+  
+  ### long table with means and sds
+     vOTUs_across_donors = abundance_vOTU_tbl %>% filter(rel_abund > 0) %>% group_by(vOTU_ID, Donor) %>%
+       summarise(mean_ab = round(mean(rel_abund),4), sd_ab = round(sd(rel_abund),4)) %>%
+                   replace_na( replace = list("sd_ab"=0)) %>% 
+       mutate(mean_sd_ab = str_c(mean_ab," +/-",sd_ab)) %>% select(-mean_ab, -sd_ab) %>% 
+       group_by(vOTU_ID) %>% mutate(n_shared_donor = n())
+     
+     # make table: rows = vOTUs, columns = donors
+     vOTUs_across_donors_tbl = vOTUs_across_donors %>% 
+       mutate(Donor = str_c("Donor", Donor)) %>%
+       select(-n_shared_donor) %>% 
+       pivot_wider(names_from = Donor, values_from = mean_sd_ab, values_fill = "nD") %>%
+       left_join(vOTUs_across_donors %>% distinct(vOTU_ID,n_shared_donor), by = "vOTU_ID") %>% 
+       ungroup()
+     
+     # safe table
+     vOTUs_across_donors_tbl %>% write_tsv("Table_SX_vOTUs_across_donors_pub.tsv")
+      
+     #
+     vOTUs_across_donors_tbl %>% 
+       mutate(n_shared_donor = sprintf("%02d",n_shared_donor)) %>%
+       dplyr::count(n_shared_donor) %>% 
+       #mutate(n_counts = sprintf("%04d",n)) %>%
+       ggplot(aes(x=n_shared_donor, y = n)) + 
+       geom_col(fill = alpha("limegreen", alpha = 0.6))+
+       geom_text(aes(label = n), nudge_y = 120)+
+       xlab("Found in 'X' donors")+ylab("counts (vOTUs)")+
+       theme_bw()+theme(text = element_text(size = 14))
+      
+     ### same but, on the genus/VC level
+     
+     # attached to abundance tbl
+     VCs_accross_donors = vOTUs_across_donors %>% 
+       left_join(vOTU_tbl, by = "vOTU_ID") %>% ungroup() %>%
+       select(VClustering, Donor) %>% group_by(VClustering, Donor) %>% 
+       mutate(n_vOTUs = n()) %>% distinct() %>%
+       mutate(Donor = str_c("Donor_",Donor)) %>%
+       group_by(VClustering) %>% mutate(n_shared_donors = n()) 
+     
+     # histogram
+     VCs_accross_donors %>% group_by(n_shared_donors) %>% filter(VClustering != "OUT/SINGLE/OVER") %>%
+       mutate(n_shared_donors = sprintf("%02d",n_shared_donors)) %>% group_by(VClustering) %>%
+       slice(1) %>% ungroup() %>% dplyr::count(n_shared_donors) %>%
+       ggplot(aes(x=n_shared_donors, y = n)) + 
+       geom_col(fill = alpha("tomato", alpha = 0.6))+
+       geom_text(aes(label = n), nudge_y = 5)+
+       xlab("Found in 'X' donors")+ylab("counts (VCs)")+
+       theme_bw()+theme(text = element_text(size = 14))
+     
+       
 
 ### make histogram of relative abundances of vOTUs
   

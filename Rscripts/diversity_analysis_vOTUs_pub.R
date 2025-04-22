@@ -7,10 +7,10 @@ library(pheatmap)
 ####
 
 ### path to vOTUs table
-vOTU_tbl = read_excel("Table_S1_vOTUs_final.xlsx") 
+vOTU_tbl = read_tsv("../Table_S1_vOTUs_final_v2.tsv") 
 
 #### path to abundance table
-abundance_tbl = read_tsv("Table_S4_abundance_tbl_final_pub.tsv") %>%
+abundance_tbl = read_tsv("../Table_S4_abundance_tbl_final_pub_v2.tsv") %>%
   left_join(vOTU_tbl) 
 
 # Donors according to AB treatment
@@ -24,10 +24,11 @@ abundance_tbl = read_tsv("Table_S4_abundance_tbl_final_pub.tsv") %>%
     select(-Donor_Treatment)
 
 # read signal overview
-Read_signal_grouped = read_csv("Table_S2_overview_readsignal.csv")  
+Read_signal_grouped = read_csv("../Table_S2_overview_readsignal.csv")  
 
   # take only the viral
-  Viral_signal = Read_signal_grouped %>% filter(Sequence_set == "viral") %>% filter(mapped_read_count > 1e6, `fraction in %` > 10) %>% 
+  Viral_signal = Read_signal_grouped %>% filter(Sequence_set == "viral") %>% 
+    filter(mapped_read_count > 1e6, `fraction in %` > 10) %>% 
     select(donor, day, mapped_read_count, fraction=`fraction in %`) %>%
     mutate(Sampling_day = ifelse( grepl(day,pattern="^-"), sprintf("%+04d", day), sprintf("%03d", day))
       ,Donor = ifelse(nchar(donor)==1, sprintf("%02d", donor), donor)
@@ -42,7 +43,7 @@ richness_per_sample = abundance_tbl %>%
       mutate(Sample_ID = str_c(Donor, Sampling_day, sep = "_")
            # down size to the smallest count per donor
           ,min_read_set = min(mapped_read_count)
-          ,rary_abundance = ab_abundunance*(min_read_set/mapped_read_count)
+          ,rary_abundance = ab_abundance*(min_read_set/mapped_read_count)
            # normalise to the size
            ,norm_rare_abundance = rary_abundance/size) %>% 
             group_by(Sample_ID) %>% mutate(
@@ -60,7 +61,7 @@ richness_per_sample = abundance_tbl %>%
 
 # get the number of samples per donor, remove the one with n > 3
   n_samples_per_donor = richness_per_sample %>% 
-    group_by(Sampling_day) %>% summarise(n=n()) %>% filter(n>3) %>% ungroup()
+    group_by(Sampling_day) %>% summarise(n=n()) #%>% filter(n>3) %>% ungroup()
                                                   
 # richness per day  
   richness_vOTU_per_day =  abundance_tbl %>% 
@@ -69,7 +70,7 @@ richness_per_sample = abundance_tbl %>%
       mutate(Sample_ID = str_c(Donor, Sampling_day, sep = "_")
            # down size to the smallest count per donor
           ,min_read_set = min(mapped_read_count)
-          ,rary_abundance = ab_abundunance*(min_read_set/mapped_read_count)
+          ,rary_abundance = ab_abundance*(min_read_set/mapped_read_count)
            # normalise to the size
            ,norm_rare_abundance = rary_abundance/size) %>% 
             group_by(Sample_ID) %>% mutate(
@@ -107,38 +108,6 @@ richness_per_sample = abundance_tbl %>%
     theme(text = element_text(size = 14), strip.background = element_blank(), legend.position = "right") +
   guides(color = guide_legend(ncol = 2)) 
 
-  # same for bacterial species (msp)
-  
-    # load overview table
-      msp_overview = read_tsv("Table_S5_microbial_species_overview.tsv") %>%
-      mutate(Last_tax_entry = sapply(gtdb_classification, extract_last_part))
-    
-    # load abundance table, count richness per day
-      msp_richness_per_day = read_tsv("Table_S6_microbial_species_abundances.tsv") %>%
-        left_join(msp_overview, by = c("id_mgs") ) %>%
-         filter(relative_abundance > 0, Sampling_day %in% n_samples_per_donor$Sampling_day) %>%
-        mutate(Class = str_extract(gtdb_classification, "(?<=c__)[^;]+"),   
-              Sampling_day = case_when(Sampling_day %in% c("015","030") ~"15+30",Sampling_day %in% c("004","007") ~ "4+7",T ~ Sampling_day))%>%
-          group_by(Sampling_day,id_mgs,Class) %>%
-        summarise() %>% 
-        #remove sample of day -7
-        group_by(Sampling_day,Class) %>% summarise(msp_per_day=n()) %>% ungroup()
-      
-      #  make table for plot
-      msp_richness_per_day_plot = msp_richness_per_day %>% left_join(host_class_colors, by = c("Class")) %>%
-      mutate(Colors = case_when( is.na(Class) ~ "grey40", is.na(Colors) ~ "grey90", T ~ Colors))
-      
-      # plot
-       msp_richness_per_day_plot %>% ggplot(aes(x=Sampling_day, y=msp_per_day, fill = Class ))+
-        geom_bar(stat = "identity",width = 0.8, col = NA)+xlab("Day")+ylab("Richness msp")+
-        scale_fill_manual(values = category_colors)+
-        scale_x_discrete(limits = c("-014","-001","4+7","010","15+30","180")
-                        ,labels = c("-14","-1","4+7","10","15+30","180"))+
-        theme_bw() + 
-          theme(text = element_text(size = 14), strip.background = element_blank(), legend.position = "right") +
-        guides(color = guide_legend(ncol = 2)) 
-
-  
 ###### compute shannon diversity per sample
 
     # for vOTUs
@@ -148,7 +117,7 @@ richness_per_sample = abundance_tbl %>%
     mutate(Sample_ID = str_c(Donor, Sampling_day, sep = "_")
            ,min_read_set = min(mapped_read_count)
            # down size to the smallest count per donor
-           ,rary_abundance = ab_abundunance*(min_read_set/mapped_read_count)
+           ,rary_abundance = ab_abundance*(min_read_set/mapped_read_count)
            # normalise to the size
            ,norm_rare_abundance = rary_abundance/size) %>% 
   group_by(Sample_ID) %>% mutate(
@@ -198,18 +167,65 @@ richness_per_sample = abundance_tbl %>%
         guides(color = guide_legend(ncol = 2)) +
         facet_wrap(~Shannon_change, ncol = 2)  
 
-    
+    #### test changes of shannon diversity using wilcoxon tests and visualize using boxplots    
+        wilc_tbl = Norm_shannon %>% mutate( 
+                TimeFrame = case_when(Sampling_day %in% c("-014","-007") ~ "Pre-Before", 
+                        #Sampling_day %in% c("030") ~ "Short-After",
+                        Sampling_day %in% c("180") ~ "Late-After",
+                        T ~ AB_treatment )) %>%
+  filter(TimeFrame !="Other") %>%
+  select(Donor, TimeFrame, Shannon) %>%
+  pivot_wider(names_from = TimeFrame, values_from = Shannon)  %>% drop_na()
+
+
+# Wilcoxon tests
+
+  # pre-before vs before
+  wilcox.test(wilc_tbl$`Pre-Before`, wilc_tbl$Before, paired = TRUE)
+
+  # before vs after
+  wilcox.test(wilc_tbl$Before, wilc_tbl$After, paired = TRUE)
+  
+  # pre-before vs after
+  wilcox.test(wilc_tbl$`Pre-Before`, wilc_tbl$After, paired = T)
+  
+  # pre-before vs late-after
+  wilcox.test(wilc_tbl$`Pre-Before`, wilc_tbl$`Late-After`, paired = T)
+  
+  # Before vs Late-After
+  wilcox.test(wilc_tbl$Before, wilc_tbl$`Late-After`, paired = T)
+  
+  # After vs Late-After
+  wilcox.test(wilc_tbl$After, wilc_tbl$`Late-After`, paired = T)
+
+
+  wilc_tbl_relative = wilc_tbl %>% 
+    mutate(After_Before = (100*After)/Before-100 ,LateAfter_After = (100*`Short-After`)/After-100 ,
+           median_After_before = median(After_Before), sd_After_before = sd(After_Before),
+           median_LateAfter_After = median(LateAfter_After),  sd_LateAfter_After = sd(LateAfter_After)) 
+  
+  
+### plot
+  wilc_tbl %>% pivot_longer(!contains("Donor")) %>% 
+    ggplot(aes(x=name, y = value)) + 
+    geom_jitter(width = 0.2, size = 2, shape = 19, col = "grey70" )+
+    geom_boxplot(fill = alpha(colour = c("grey","deepskyblue","red","grey") ,alpha = 0.5), outliers = F)+
+    scale_x_discrete(limits = c("Pre-Before","Before","After","Late-After"), name = "")+
+    ylab("Shannon diversity")+
+    theme_bw()+theme(text=element_text(size = 18))
+        
+        
 ### compute the beta diversity between samples using bray-curtis distances, 
  
   ## normalize all samples to one sample (and not per donor as for Shannon)
 
   Abundance_tbl_bc = abundance_tbl %>%
+  mutate(Donor = ifelse(Donor == "11", "No_Ref_11", Donor)) %>% 
   inner_join(Viral_signal, by = c("Donor","Sampling_day")) %>%  
-  mutate(min_read_set = min(mapped_read_count)
-         ,Donor = ifelse(Donor == "11", "No_Ref_11", Donor)
-         ) %>% 
+  filter(!(Donor %in% c("29","No_Ref_11"))) %>%
+  mutate(min_read_set = min(mapped_read_count)) %>%
   # rarefy to all samples
-  mutate(rary_abundance = ab_abundunance*(min_read_set/mapped_read_count),rel_rare_abundance = rary_abundance/size
+  mutate(rary_abundance = ab_abundance*(min_read_set/mapped_read_count),rel_rare_abundance = rary_abundance/size
          ,norm_rel_abund  = round(100*rel_rare_abundance/sum(rel_rare_abundance),9) ) %>% 
   ungroup() %>%
   select(vOTU_ID, Donor, Sampling_day, rel_rare_abundance) %>%
@@ -236,10 +252,10 @@ richness_per_sample = abundance_tbl %>%
   anno_col = Viral_signal %>% select(Donor, Sampling_day) %>% 
      mutate(Sample_ID = str_c(Donor, Sampling_day, sep = "_") 
     ,Donor = ifelse(Donor == "11", "No_Ref_11", Donor), Donor = as.factor(Donor)) %>% 
-    # remove Donor_29 (no sample before AB treatment)
-    filter(Donor != "29") %>%
+    # remove Donor_29 and Donor 11 (no sample before AB treatment)
+    filter(!(Donor %in% c("29","No_Ref_11"))) %>%
     column_to_rownames("Sample_ID")
-  anno_colors = list(Donor= setNames( c(colorRampPalette(RColorBrewer::brewer.pal(n = 8, name = "Set3"))(21),"grey50"),levels(anno_col$Donor)))
+  anno_colors = list(Donor= setNames( c(colorRampPalette(RColorBrewer::brewer.pal(n = 8, name = "Set3"))(20),"grey50"),levels(anno_col$Donor)))
   
   # plot using pheatmap package
   pheatmap( mat = mat_bray_curt
@@ -285,17 +301,48 @@ richness_per_sample = abundance_tbl %>%
   bc_groups_plot %>% ggplot(aes(x=Category, y=mean_BC)) + 
     geom_boxplot(fill = "grey80", outliers = FALSE)+geom_jitter(size = 2, width = 0.2)+
     theme_bw()+ theme(text = element_text(size = 14))
+    
   
-  
-#### same for bacteria
+# same for microbial/ bacterial species (msp)
   
   # first get species name or last entry of the taxonomy 
     extract_last_part = function(string) 
       { parts = strsplit(string, ";")[[1]]; last_part = tail(parts, 1); return(last_part) }
   
+    # load overview table
+      msp_overview = read_tsv("../Table_S5_microbial_species_overview.tsv")  %>%
+      mutate(Last_tax_entry = sapply(gtdb_classification, extract_last_part))
+    
+    # load abundance table, count richness per day
+      msp_richness_per_day = read_tsv("../Table_S6_microbial_species_abundances.tsv") %>%
+        left_join(msp_overview, by = c("id_mgs") ) %>%
+         filter(relative_abundance > 0, Sampling_day %in% n_samples_per_donor$Sampling_day) %>%
+        mutate(Class = str_extract(gtdb_classification, "(?<=c__)[^;]+"),   
+              Sampling_day = case_when(Sampling_day %in% c("015","030") ~"15+30",Sampling_day %in% c("004","007") ~ "4+7",T ~ Sampling_day))%>%
+          group_by(Sampling_day,id_mgs,Class) %>%
+        summarise() %>% 
+        #remove sample of day -7
+        group_by(Sampling_day,Class) %>% summarise(msp_per_day=n()) %>% ungroup()
+      
+      #  make table for plot
+      msp_richness_per_day_plot = msp_richness_per_day %>% left_join(host_class_colors, by = c("Class")) %>%
+      mutate(Colors = case_when( is.na(Class) ~ "grey40", is.na(Colors) ~ "grey90", T ~ Colors))
+      
+      # plot
+       msp_richness_per_day_plot %>% ggplot(aes(x=Sampling_day, y=msp_per_day, fill = Class ))+
+        geom_bar(stat = "identity",width = 0.8, col = NA)+xlab("Day")+ylab("Richness msp")+
+        scale_fill_manual(values = category_colors)+
+        scale_x_discrete(limits = c("-014","-001","4+7","010","15+30","180")
+                        ,labels = c("-14","-1","4+7","10","15+30","180"))+
+        theme_bw() + 
+          theme(text = element_text(size = 14), strip.background = element_blank(), legend.position = "right") +
+        guides(color = guide_legend(ncol = 2)) 
+
+#### same for bacteria
+  
    msp_overview = msp_overview %>% mutate(Last_tax_entry = str_remove(pattern="s__",extract_last_part(gtdb_classification)))
   
-   msp_abundance = read_tsv("Table_S6_microbial_species_abundances.tsv") %>%
+   msp_abundance = read_tsv("../Table_S6_microbial_species_abundances.tsv") %>%
         left_join(msp_overview, by = c("id_mgs") ) %>%
          filter(relative_abundance > 0) %>%
         mutate(abdundance_metric = ifelse(relative_abundance> 25, Last_tax_entry, "Low_abundance")) 
@@ -348,3 +395,72 @@ richness_per_sample = abundance_tbl %>%
       theme_bw() + theme(text = element_text(size = 14), strip.background = element_blank(), legend.position = "right") +
       guides(color = guide_legend(ncol = 2)) +
       facet_wrap(~Shannon_change, ncol = 2)  
+      
+  ## test for differences
+  wilc_tbl_msp = Norm_shannon_msp %>% mutate( 
+  TimeFrame = case_when(Sampling_day %in% c("-014","-007") ~ "Pre-Before", 
+                        Sampling_day %in% c("030") ~ "Short-After",
+                        #Sampling_day %in% c("180") ~ "Late-After",
+                        T ~ AB_treatment )) %>%
+  filter(TimeFrame !="Other") %>%
+  select(Donor, TimeFrame, Shannon) %>%
+  pivot_wider(names_from = TimeFrame, values_from = Shannon)  %>% drop_na()
+    
+####
+  
+  # wilcoxon tests
+
+  # pre-before vs before
+  wilcox.test(wilc_tbl_msp$`Pre-Before`, wilc_tbl_msp$Before, paired = TRUE)
+
+  # before vs after
+  wilcox.test(wilc_tbl_msp$Before, wilc_tbl_msp$After, paired = TRUE)
+  
+  # pre-before vs after
+  wilcox.test(wilc_tbl_msp$`Pre-Before`, wilc_tbl_msp$After, paired = T)
+  
+  # pre-before vs late-after
+  wilcox.test(wilc_tbl_msp$`Pre-Before`, wilc_tbl_msp$`Late-After`, paired = T)
+  
+  # Before vs Late-After
+  wilcox.test(wilc_tbl_msp$Before, wilc_tbl_msp$`Late-After`, paired = T)
+  
+  # After vs Late-After
+  wilcox.test(wilc_tbl_msp$After, wilc_tbl_msp$`Late-After`, paired = T)
+  
+  ### plot 
+  
+  wilc_tbl_msp %>% pivot_longer(!contains("Donor")) %>% 
+    ggplot(aes(x=name, y = value)) + 
+    geom_jitter(width = 0.2, size = 2, shape = 19, col = "grey70" )+
+    geom_boxplot(fill = alpha(colour = c("grey","deepskyblue","red","grey") ,alpha = 0.5), outliers = F)+
+    scale_x_discrete(limits = c("Pre-Before","Before","After","Late-After"), name = "")+
+    ylab("Shannon diversity")+
+    theme_bw()+theme(text=element_text(size = 18))
+
+  ## change relative levels
+  wilc_tbl_msp_relative = wilc_tbl_msp %>% 
+    mutate(After_Before = (100*After)/Before-100, LateAfter_After = (100*`Short-After`)/After-100 ,
+           median_After_before = median(After_Before),
+           sd_After_Before = sd(After_Before),
+           median_LateAfter_After = median(LateAfter_After),
+           sd_LateAfter_After = sd(LateAfter_After)
+           ) 
+
+        
+  test_regain_div = wilc_tbl_msp_relative %>% select(Donor,Short_after_bac = LateAfter_After) %>%
+                    left_join(wilc_tbl_relative %>% select(Donor, Short_after_vOTU = LateAfter_After))  
+  
+  
+   # pre-before vs after
+  wilcox.test(test_regain_div$Short_after_bac, test_regain_div$Short_after_vOTU, paired = F)
+  
+  test_loss_div = wilc_tbl_msp_relative %>% select(Donor,After_Before_bac = After_Before) %>%
+                    left_join(wilc_tbl_relative %>% select(Donor, After_Before_vOTU = After_Before))  
+  
+  
+   # pre-before vs after
+  wilcox.test(test_loss_div$After_Before_bac, test_loss_div$After_Before_vOTU, paired = F)
+  
+  
+  

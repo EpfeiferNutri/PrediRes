@@ -7,10 +7,10 @@ library(readxl)
 # AMR vOTUs over time
 
 ### path to vOTUs table
-vOTU_tbl = read_excel("Table_S1_vOTUs_final.xlsx") 
+vOTU_tbl = read_excel("../Table_S1_vOTUs_final_v2.tsv") 
 
 # read signal overview
-Read_signal_grouped = read_csv("Table_S2_overview_readsignal.csv")  
+Read_signal_grouped = read_csv("../Table_S2_overview_readsignal.csv")  
 
   # take only the viral
   Viral_signal = Read_signal_grouped %>% filter(Sequence_set == "viral") %>% filter(mapped_read_count > 1e6, `fraction in %` > 10) %>% 
@@ -20,14 +20,14 @@ Read_signal_grouped = read_csv("Table_S2_overview_readsignal.csv")
       ,Donor = ifelse(Donor == "11", "No_Ref_11", Donor)) %>% select(-donor, -day)
 
 #### path to abundance table
-abundance_amr_tbl = read_tsv("Table_S4_abundance_tbl_final_pub.tsv") %>%
+abundance_amr_tbl = read_tsv("../Table_S4_abundance_tbl_final_pub_v2.tsv") %>%
   # filter for viral signal and compute relative abundance
   inner_join(Viral_signal, by = c("Donor","Sampling_day")) %>%
       group_by(Donor)  %>% 
       mutate(Sample_ID = str_c(Donor, Sampling_day, sep = "_")
            # down size to the smallest count per donor
           ,min_read_set = min(mapped_read_count)
-          ,rary_abundance = ab_abundunance*(min_read_set/mapped_read_count)
+          ,rary_abundance = ab_abundance*(min_read_set/mapped_read_count)
            # normalise to the size
            ,norm_rare_abundance = rary_abundance/size) %>% 
             group_by(Sample_ID) %>% mutate(
