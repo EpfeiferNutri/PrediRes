@@ -10,8 +10,13 @@ https://doi.org/10.1101/2025.02.07.636470
  <br>
  
 **`Table S1`: Overview of viral species (=vOTUs)**
-* vOTU_ID - Specifier/ID for the vOTUs,
+* vOTU_ID - Specifier/ID for the vOTUs
+* Novel species - Yes/No, based on ANI 95% and AF 85% clustering with viral species of UHGV
+* VC - Viral cluster, as given by vConTACT v2. vOTUs that were assigned to seveal clusters (overlap) have several VC indicated (separated by ;). Outlier and singletons were put together to OUT/SINGLE 
+* VClustering - Same as VC, but overlaps were added together to OUT/SINGLE/OVER  
 * size - contig and genomes sizes in bp
+* Novel_genus - Yes/No. A novel genus is defined to contain only novel species.
+* dominant - Yes/No. Yes is attributed, if found in at least one donor with an abundance level >25%.
 * source - One of three approaches used to obtain the contig: SpadesMetaV (assembly using Spades with --metaviral), SpadesFractionR )random subsampling of lowly covered readsets and assembly with Spades (default)), UHGV (contigs of UHGV that were covered by the reads at least to 50% and a sequencing depth of 1)
 * checkV quality - Quality indexes of checkV (Complete, High-, Medium-, Low-quality, and not-determined)
 * viral-lifecycle - Prediction of the lifecycle by BACPHLIP for genomes with at least High-quality. A temperate state was assigned, when prediction (ranges between 0 and 1) was >0.5 towards temperate. Otherwise it was set as virulent.
