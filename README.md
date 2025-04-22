@@ -15,8 +15,6 @@ https://doi.org/10.1101/2025.02.07.636470
 * source - One of three approaches used to obtain the contig: SpadesMetaV (assembly using Spades with --metaviral), SpadesFractionR )random subsampling of lowly covered readsets and assembly with Spades (default)), UHGV (contigs of UHGV that were covered by the reads at least to 50% and a sequencing depth of 1)
 * checkV quality - Quality indexes of checkV (Complete, High-, Medium-, Low-quality, and not-determined)
 * viral-lifecycle - Prediction of the lifecycle by BACPHLIP for genomes with at least High-quality. A temperate state was assigned, when prediction (ranges between 0 and 1) was >0.5 towards temperate. Otherwise it was set as virulent.
-* found_in_n_donors - Number of donors, in whom the vOTUs was detected
-* donorID_sample - ID of the donor in who it was detect and respective sample point (in backets)
 * Related_to_PP - Yes or No,  relation to a phage-plasmids was determined by wGRR or vConTACT v2
 * With_ARG - No: no antibiotic resistance gene (ARG) was detected. Yes: ARGs with vOTUs (predicted with AMRfinderPlus), and the encoding gene
 * viral_taxonomy_lineage - Taxonomy was predicted by geNomad
@@ -39,19 +37,23 @@ https://doi.org/10.1101/2025.02.07.636470
 * Method_detected (wGRR-only, vContact v2 only, or by the two)	] - Specification of the method that was used to detect the relation to the phage-plasmid.
 * vOTUs - List of vOTUs related to the phage-plasmids. Separated by semi-colon.
 
-**`Table S4`: Abundance table for all vOTUs**
+**`Table S4`: vOTUs across donors** 
+* vOTU_ID - as in Table S1
+* Donor01 - Donor34: mean and sd of relative abundances in %, nD: not determinable
+
+**`Table S5`: Abundance table for all vOTUs**
 *  vOTU_ID and Size - As in Table S1
 *  Donor  - ID of the volunteer who gave the sample
 *  Sampling_Day - Time point of the sample
 *  ab_abundance - Absolute counts of reads mapped on the vOTU 
   
-**`Table S5`: Overview of microbial species detected in PMID: 38468305** 
+**`Table S6`: Overview of microbial species detected in PMID: 38468305** 
 * id_mgs - species ID
 * in_n_donor - Number in how many donors this species was detected
 * donorID_detected - ID of donors in which the species was detected
 * gtdb_classification - taxonomy of the species according to the Genome Taxonomy Database
   
-**`Table S6`: Relative abundance of microbial species**
+**`Table S7`: Relative abundance of microbial species**
 * id_mgs - as in Table S5
 * relative_abundance - computed with METEOR and is based on most frequent signatur genes
 * Donor - Donor_ID
