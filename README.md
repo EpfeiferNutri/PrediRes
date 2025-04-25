@@ -66,23 +66,3 @@ https://doi.org/10.1101/2025.02.07.636470
 * Sampling_day - Time point (day) of the sample
 
  <br><br>
-  
-**Folder Rscripts contains all required Rscripts to generate Figures and perform the analysis.**  
- <br>
-**`overview_vOTUs.R` - Generates Figure 1 (A-E)**
-* requires the Rpackages tidyverse, readxl and UpSetR. Path for Table S1 needs to be specified. 
-
-**`diversity_analysis_vOTUs.R` - Generates Figure 2 and S5** (Figure S5B is a variant of Figure 2B)
-* requires  tidyverse, readxl, vegan and pheatmap. In addition, Table S1, S4, S5 and S6 are needed.
-  
-* **`votus_wARGs.R` - Generates Figure 3**
-* requires tidyverse and readxl, and Table S1, S2 and S4. 
-
-**`Abundances_over_time.R` - Generates Figure 4, 5, S7 and S8**
-* requires tidyverse and readxl. Table S1, S2, S4, S5, S6 
-
-**`non_redundant_contig_ANI.R`** 
-* Used to dereplicate redundant sequences (to define vOTUs) using a network approach, and a species definition of 95% ANI over 85% AF. Details are listed in the Methods part under * Clustering viral contigs into viral Operational Taxonomical Units (vOTUs). The multifasta sequence file, blastn and anicalc.py (from CheckV) are required.
-
-**`multimer_resolution_mummer.R`**
-* This script is used to detect and solve concatemeric sequences. It requires the output from a blastn (all vs all) comparison, and a subsequent MUMmer 4.0 analysis to detect tandem repeats.
