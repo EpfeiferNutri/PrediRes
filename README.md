@@ -1,8 +1,9 @@
 Files and scripts to reproduce figures and analysis from 
-# Third-generation cephalosporin antibiotics induce phage bursts in the human gut microbiome
+# Title
+Antibiotic perturbation of the human gut phageome preserves its individuality and promotes blooms of virulent phages
 https://doi.org/10.1101/2025.02.07.636470
 
-![graphical_abstract](https://github.com/user-attachments/assets/6e7036d0-490b-4c23-b652-b1b04d586718)
+![image](https://github.com/user-attachments/assets/60d80243-d8c5-4fda-8c1d-5f295b5803f3)
 
 
  <br><br>
@@ -61,7 +62,7 @@ https://doi.org/10.1101/2025.02.07.636470
   
 **`Table S7`: Relative abundance of microbial species**
 * id_mgs - as in Table S5
-* relative_abundance - computed with METEOR and is based on most frequent signatur genes
+* relative_abundance - computed with METEOR. Relative abundance was computed on the mean of the most frequent signature genes
 * Donor - Donor_ID
 * Sampling_day - Time point (day) of the sample
 
